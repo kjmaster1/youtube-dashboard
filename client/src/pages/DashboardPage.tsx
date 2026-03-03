@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Layout from '../components/layout/Layout';
 import StatCard from '../components/StatCard';
 import TopVideos from '../components/TopVideos';
 import SubscriberChart from '../components/SubscriberChart';
-import { useDashboard } from '../hooks/useDashboard';
-import { triggerSync } from '../services/api';
-import { formatNumber, formatDate } from '../utils/format';
+import {useDashboard} from '../hooks/useDashboard';
+import {triggerSync} from '../services/api';
+import {formatDate, formatNumber} from '../utils/format';
 
 export default function DashboardPage() {
-    const { data, loading, error, refetch } = useDashboard();
+    const {data, loading, error, refetch} = useDashboard();
     const [syncing, setSyncing] = useState(false);
 
     async function handleSync() {
@@ -43,7 +43,7 @@ export default function DashboardPage() {
         );
     }
 
-    const { channel, latestSnapshot, snapshotHistory, topVideos } = data;
+    const {channel, latestSnapshot, snapshotHistory, topVideos} = data;
 
     return (
         <Layout>
@@ -63,6 +63,14 @@ export default function DashboardPage() {
                         </p>
                     </div>
                 </div>
+                <a
+                    href="/showcase"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-700"
+                >
+                    Public Showcase →
+                </a>
                 <button
                     onClick={handleSync}
                     disabled={syncing}
@@ -98,8 +106,8 @@ export default function DashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-6">
-                <SubscriberChart snapshots={snapshotHistory} />
-                <TopVideos videos={topVideos} />
+                <SubscriberChart snapshots={snapshotHistory}/>
+                <TopVideos videos={topVideos}/>
             </div>
         </Layout>
     );
