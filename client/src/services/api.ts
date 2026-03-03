@@ -40,3 +40,9 @@ export async function getInsights(): Promise<Insights> {
     const res = await api.get('/insights');
     return res.data;
 }
+
+export async function getShowcase() {
+    const res = await fetch('/api/public/showcase');
+    if (!res.ok) throw new Error('Failed to load showcase');
+    return res.json();
+}

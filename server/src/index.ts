@@ -8,6 +8,7 @@ import syncRouter from './routes/sync';
 import dashboardRouter from './routes/dashboard';
 import videosRouter from './routes/videos';
 import insightsRouter from './routes/insights';
+import publicRouter from './routes/public';
 import { startScheduler } from './services/scheduler';
 
 dotenv.config();
@@ -35,6 +36,7 @@ app.use('/api/sync', syncRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/videos', videosRouter);
 app.use('/api/insights', insightsRouter);
+app.use('/api/public', publicRouter);
 
 app.get('/health', async (req, res) => {
     try {
