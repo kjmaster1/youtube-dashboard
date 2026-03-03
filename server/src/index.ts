@@ -1,15 +1,31 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import session from 'express-session';
 import { prisma } from './db';
+import authRouter from './routes/auth';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 app.use(express.json());
+app.use(session({
+    secret: process.env.SESSION_SECRET!,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // set to true in production with HTTPS
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    }
+}));
+
+app.use('/api/auth', authRouter);
 
 app.get('/health', async (req, res) => {
     try {
@@ -20,6 +36,6 @@ app.get('/health', async (req, res) => {
     }
 });
 
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
