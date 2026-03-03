@@ -62,22 +62,22 @@ export default function DashboardPage() {
                             {channel.customUrl} · Since {formatDate(channel.publishedAt)}
                         </p>
                     </div>
+                    <a
+                        href="/showcase"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-700"
+                    >
+                        Public Showcase →
+                    </a>
+                    <button
+                        onClick={handleSync}
+                        disabled={syncing}
+                        className="bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    >
+                        {syncing ? 'Syncing...' : 'Sync Now'}
+                    </button>
                 </div>
-                <a
-                    href="/showcase"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-700"
-                >
-                    Public Showcase →
-                </a>
-                <button
-                    onClick={handleSync}
-                    disabled={syncing}
-                    className="bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                    {syncing ? 'Syncing...' : 'Sync Now'}
-                </button>
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-6 lg:grid-cols-4">

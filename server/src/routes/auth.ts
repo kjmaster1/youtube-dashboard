@@ -60,7 +60,7 @@ router.get('/callback', async (req: Request, res: Response) => {
             }
         });
 
-        res.redirect('http://localhost:5173/dashboard');
+        res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard`);
     } catch (error) {
         console.error('OAuth callback error:', error);
         res.status(500).json({ error: 'Authentication failed' });
