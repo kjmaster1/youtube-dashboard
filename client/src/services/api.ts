@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type {DashboardData, Video} from '../types';
+import type {DashboardData, Video, Insights} from '../types';
 
 const api = axios.create({
     baseURL: '/api',
@@ -22,5 +22,21 @@ export async function getDashboardData(): Promise<DashboardData> {
 
 export async function getVideos(): Promise<Video[]> {
     const res = await api.get('/videos');
+    return res.data;
+}
+
+export async function exportCSV(): Promise<void> {
+    const response = await fetch('/api/videos/export');
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'youtube-analytics.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+
+export async function getInsights(): Promise<Insights> {
+    const res = await api.get('/insights');
     return res.data;
 }

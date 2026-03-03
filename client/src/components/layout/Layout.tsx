@@ -37,6 +37,18 @@ export default function Layout({ children }: LayoutProps) {
                     >
                         Videos
                     </NavLink>
+                    <NavLink
+                        to="/insights"
+                        className={({ isActive }) =>
+                            `px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                isActive
+                                    ? 'bg-red-600 text-white'
+                                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                            }`
+                        }
+                    >
+                        Insights
+                    </NavLink>
                 </nav>
                 <div className="mt-auto">
 

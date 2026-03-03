@@ -7,6 +7,8 @@ import authRouter from './routes/auth';
 import syncRouter from './routes/sync';
 import dashboardRouter from './routes/dashboard';
 import videosRouter from './routes/videos';
+import insightsRouter from './routes/insights';
+import { startScheduler } from './services/scheduler';
 
 dotenv.config();
 
@@ -32,6 +34,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/sync', syncRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/videos', videosRouter);
+app.use('/api/insights', insightsRouter);
 
 app.get('/health', async (req, res) => {
     try {
@@ -41,6 +44,8 @@ app.get('/health', async (req, res) => {
         res.status(500).json({ status: 'error', database: 'disconnected' });
     }
 });
+
+startScheduler();
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

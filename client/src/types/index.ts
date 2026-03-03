@@ -39,3 +39,13 @@ export interface DashboardData {
     snapshotHistory: ChannelSnapshot[];
     topVideos: Video[];
 }
+
+export interface Insights {
+    bestDayToPost: { day: string; avgViews: number; count: number }[];
+    formatComparison: {
+        shorts: { count: number; avgViews: number; avgEngagement: string };
+        longForm: { count: number; avgViews: number; avgEngagement: string };
+    };
+    topTitles: string[];
+    bottomTitles: string[];
+}

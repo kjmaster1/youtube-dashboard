@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Layout from '../components/layout/Layout';
 import { useVideos } from '../hooks/useVideos';
 import { formatNumber, formatDuration, formatDate, engagementRate } from '../utils/format';
+import { exportCSV } from '../services/api';
 
 type SortKey = 'publishedAt' | 'viewCount' | 'likeCount' | 'engagementRate';
 type SortDir = 'asc' | 'desc';
@@ -97,6 +98,12 @@ export default function VideosPage() {
                         {filtered.length} of {videos.length} videos
                     </p>
                 </div>
+                <button
+                    onClick={exportCSV}
+                    className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-700"
+                >
+                    Export CSV
+                </button>
                 <input
                     type="text"
                     placeholder="Search videos..."
