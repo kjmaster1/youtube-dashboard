@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import { prisma } from './db';
 import authRouter from './routes/auth';
+import syncRouter from './routes/sync';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(session({
 }));
 
 app.use('/api/auth', authRouter);
+app.use('/api/sync', syncRouter);
 
 app.get('/health', async (req, res) => {
     try {

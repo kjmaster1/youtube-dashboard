@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { google, Auth } from 'googleapis';
 import 'express-session';
+import {prisma} from "../db";
 
 declare module 'express-session' {
     interface SessionData {
@@ -38,6 +39,27 @@ router.get('/callback', async (req: Request, res: Response) => {
     try {
         const { tokens } = await oauth2Client.getToken(code as string);
         req.session.tokens = tokens;
+
+        // Save tokens to database so they can be retrieved without a session
+        await prisma.authToken.upsert({
+            where: { id: 'primary' },
+            update: {
+                accessToken: tokens.access_token!,
+                refreshToken: tokens.refresh_token ?? undefined,
+                expiryDate: tokens.expiry_date
+                    ? new Date(tokens.expiry_date)
+                    : undefined,
+            },
+            create: {
+                id: 'primary',
+                accessToken: tokens.access_token!,
+                refreshToken: tokens.refresh_token ?? undefined,
+                expiryDate: tokens.expiry_date
+                    ? new Date(tokens.expiry_date)
+                    : undefined,
+            }
+        });
+
         res.redirect('http://localhost:5173/dashboard');
     } catch (error) {
         console.error('OAuth callback error:', error);
