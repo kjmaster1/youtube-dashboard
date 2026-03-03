@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Channel {
+  id                String   @id @default(cuid())
+  youtubeChannelId  String   @unique
+  title             String
+  description       String?
+  thumbnailUrl      String?
+  customUrl         String?
+  publishedAt       DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  snapshots         ChannelSnapshot[]
+  videos            Video[]
+}
+
+model ChannelSnapshot {
+  id               String   @id @default(cuid())
+  channelId        String
+  subscriberCount  Int
+  viewCount        BigInt
+  videoCount       Int
+  recordedAt       DateTime @default(now())
+
+  channel          Channel  @relation(fields: [channelId], references: [id])
+}
+
+model Video {
+  id               String   @id @default(cuid())
+  youtubeVideoId   String   @unique
+  channelId        String
+  title            String
+  description      String?
+  thumbnailUrl     String?
+  publishedAt      DateTime
+  duration         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  channel          Channel  @relation(fields: [channelId], references: [id])
+  snapshots        VideoSnapshot[]
+}
+
+model VideoSnapshot {
+  id            String   @id @default(cuid())
+  videoId       String
+  viewCount     BigInt
+  likeCount     Int
+  commentCount  Int
+  recordedAt    DateTime @default(now())
+
+  video         Video    @relation(fields: [videoId], references: [id])
+}
