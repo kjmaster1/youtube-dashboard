@@ -2,7 +2,9 @@ import axios from 'axios';
 import type {DashboardData, Video, Insights} from '../types';
 
 const api = axios.create({
-    baseURL: '/api',
+    baseURL: import.meta.env.VITE_API_URL
+        ? `${import.meta.env.VITE_API_URL}/api`
+        : '/api',
     withCredentials: true,
 });
 
@@ -42,7 +44,8 @@ export async function getInsights(): Promise<Insights> {
 }
 
 export async function getShowcase() {
-    const res = await fetch('/api/public/showcase');
+    const base = import.meta.env.VITE_API_URL ?? '';
+    const res = await fetch(`${base}/api/public/showcase`);
     if (!res.ok) throw new Error('Failed to load showcase');
     return res.json();
 }
