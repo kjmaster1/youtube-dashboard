@@ -11,6 +11,8 @@ build/
 .env.production
 .nvmrc
 
+cookies.txt
+
 # OS clutter
 .DS_Store
 Thumbs.db
