@@ -5,6 +5,7 @@ export default function LoginPage() {
         <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
             <div className="text-center">
                 <h1 className="text-4xl font-bold mb-4">YouTube Dashboard</h1>
+                <p className="text-xs text-gray-500 mb-4">{apiBase}/api/auth/login</p>
                 <a
                     href={`${apiBase}/api/auth/login`}
                     className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
