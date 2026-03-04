@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { google, Auth } from 'googleapis';
 import 'express-session';
-import {prisma} from "../db";
+import { prisma } from '../db';
 
 declare module 'express-session' {
     interface SessionData {
@@ -11,19 +11,22 @@ declare module 'express-session' {
 
 const router = Router();
 
-const oauth2Client = new google.auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URI
-);
-
 const SCOPES = [
     'https://www.googleapis.com/auth/youtube.readonly',
     'https://www.googleapis.com/auth/yt-analytics.readonly',
 ];
 
+function getOAuthClient() {
+    return new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        process.env.GOOGLE_REDIRECT_URI
+    );
+}
+
 // Step 1 of OAuth — redirect user to Google's login page
 router.get('/login', (req: Request, res: Response) => {
+    const oauth2Client = getOAuthClient();
     const authUrl = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES,
@@ -34,13 +37,13 @@ router.get('/login', (req: Request, res: Response) => {
 
 // Step 2 of OAuth — Google redirects back here with an auth code
 router.get('/callback', async (req: Request, res: Response) => {
+    const oauth2Client = getOAuthClient();
     const { code } = req.query;
 
     try {
         const { tokens } = await oauth2Client.getToken(code as string);
         req.session.tokens = tokens;
 
-        // Save tokens to database so they can be retrieved without a session
         await prisma.authToken.upsert({
             where: { id: 'primary' },
             update: {
