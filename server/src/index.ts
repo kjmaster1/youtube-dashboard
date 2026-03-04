@@ -46,12 +46,7 @@ app.get('/health', async (req, res) => {
         await prisma.$queryRaw`SELECT 1`;
         res.status(200).json({status: 'ok', database: 'connected'});
     } catch (error) {
-        const err = error as Error;
-        res.status(200).json({
-            status: 'ok',
-            database: 'disconnected',
-            error: err.message,
-        });
+        res.status(200).json({ status: 'ok', database: 'disconnected' });
     }
 });
 
