@@ -16,6 +16,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Public routes — allow all origins, no credentials needed
+app.use('/api/public', cors(), publicRouter);
+
+// All other routes — restrict to client URL only
 app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
     credentials: true,
@@ -26,8 +30,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // set to true in production with HTTPS
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000,
     }
 }));
 
@@ -36,7 +40,6 @@ app.use('/api/sync', syncRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/videos', videosRouter);
 app.use('/api/insights', insightsRouter);
-app.use('/api/public', publicRouter);
 
 app.get('/health', async (req, res) => {
     try {
