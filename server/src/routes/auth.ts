@@ -89,7 +89,7 @@ router.get('/status', (req: Request, res: Response) => {
 // Log out
 router.get('/logout', (req: Request, res: Response) => {
     req.session.destroy(() => {
-        res.json({success: true});
+        res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}`);
     });
 });
 
