@@ -27,11 +27,13 @@ function getOAuthClient() {
 // Step 1 of OAuth — redirect user to Google's login page
 router.get('/login', (req: Request, res: Response) => {
     const oauth2Client = getOAuthClient();
+    console.log('GOOGLE_REDIRECT_URI:', JSON.stringify(process.env.GOOGLE_REDIRECT_URI));
     const authUrl = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES,
         prompt: 'consent',
     });
+    console.log('Generated auth URL:', authUrl);
     res.redirect(authUrl);
 });
 
