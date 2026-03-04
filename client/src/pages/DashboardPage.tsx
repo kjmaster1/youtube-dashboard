@@ -9,6 +9,11 @@ import {formatDate, formatNumber} from '../utils/format';
 
 export default function DashboardPage() {
     const {data, loading, error, refetch} = useDashboard();
+
+    if (data?.channel.title) {
+        localStorage.setItem('channelTitle', data.channel.title);
+    }
+
     const [syncing, setSyncing] = useState(false);
 
     async function handleSync() {
@@ -25,7 +30,7 @@ export default function DashboardPage() {
 
     if (loading) {
         return (
-            <Layout>
+            <Layout channelTitle={data?.channel.title}>
                 <div className="flex items-center justify-center h-64 text-gray-400">
                     Loading...
                 </div>
@@ -35,7 +40,7 @@ export default function DashboardPage() {
 
     if (error || !data) {
         return (
-            <Layout>
+            <Layout channelTitle={data?.channel.title}>
                 <div className="flex items-center justify-center h-64 text-red-400">
                     {error ?? 'No data found. Try syncing first.'}
                 </div>
@@ -46,7 +51,7 @@ export default function DashboardPage() {
     const {channel, latestSnapshot, snapshotHistory, topVideos} = data;
 
     return (
-        <Layout>
+        <Layout channelTitle={data?.channel.title}>
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-4">
                     {channel.thumbnailUrl && (

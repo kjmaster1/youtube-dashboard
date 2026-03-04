@@ -69,9 +69,11 @@ export default function VideosPage() {
         );
     }
 
+    const channelTitle = localStorage.getItem('channelTitle') ?? undefined;
+
     if (loading) {
         return (
-            <Layout>
+            <Layout channelTitle={channelTitle}>
                 <div className="flex items-center justify-center h-64 text-gray-400">
                     Loading...
                 </div>
@@ -81,7 +83,7 @@ export default function VideosPage() {
 
     if (error) {
         return (
-            <Layout>
+            <Layout channelTitle={channelTitle}>
                 <div className="flex items-center justify-center h-64 text-red-400">
                     {error}
                 </div>
@@ -90,7 +92,7 @@ export default function VideosPage() {
     }
 
     return (
-        <Layout>
+        <Layout channelTitle={channelTitle}>
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h1 className="text-2xl font-bold">Videos</h1>

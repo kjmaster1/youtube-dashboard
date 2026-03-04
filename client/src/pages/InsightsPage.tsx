@@ -5,9 +5,11 @@ import { formatNumber } from '../utils/format';
 export default function InsightsPage() {
     const { data, loading, error } = useInsights();
 
+    const channelTitle = localStorage.getItem('channelTitle') ?? undefined;
+
     if (loading) {
         return (
-            <Layout>
+            <Layout channelTitle={channelTitle}>
                 <div className="flex items-center justify-center h-64 text-gray-400">Loading...</div>
             </Layout>
         );
@@ -15,14 +17,14 @@ export default function InsightsPage() {
 
     if (error || !data) {
         return (
-            <Layout>
+            <Layout channelTitle={channelTitle}>
                 <div className="flex items-center justify-center h-64 text-red-400">{error}</div>
             </Layout>
         );
     }
 
     return (
-        <Layout>
+        <Layout channelTitle={channelTitle}>
             <div className="mb-8">
                 <h1 className="text-2xl font-bold">Content Insights</h1>
                 <p className="text-sm text-gray-400 mt-1">
