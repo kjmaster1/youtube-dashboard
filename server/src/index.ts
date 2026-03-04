@@ -2,14 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
-import { prisma } from './db';
+import {prisma} from './db';
 import authRouter from './routes/auth';
 import syncRouter from './routes/sync';
 import dashboardRouter from './routes/dashboard';
 import videosRouter from './routes/videos';
 import insightsRouter from './routes/insights';
 import publicRouter from './routes/public';
-import { startScheduler } from './services/scheduler';
+import {startScheduler} from './services/scheduler';
 
 dotenv.config();
 
@@ -44,9 +44,14 @@ app.use('/api/insights', insightsRouter);
 app.get('/health', async (req, res) => {
     try {
         await prisma.$queryRaw`SELECT 1`;
-        res.status(200).json({ status: 'ok', database: 'connected' });
+        res.status(200).json({status: 'ok', database: 'connected'});
     } catch (error) {
-        res.status(200).json({ status: 'ok', database: 'disconnected' });
+        const err = error as Error;
+        res.status(200).json({
+            status: 'ok',
+            database: 'disconnected',
+            error: err.message,
+        });
     }
 });
 
