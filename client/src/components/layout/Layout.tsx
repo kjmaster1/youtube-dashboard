@@ -4,6 +4,8 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
+const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
+
 export default function Layout({ children }: LayoutProps) {
     return (
         <div className="min-h-screen bg-gray-950 text-white flex">
@@ -53,7 +55,7 @@ export default function Layout({ children }: LayoutProps) {
                 <div className="mt-auto">
 
                     <a
-                    href="http://localhost:3001/api/auth/logout"
+                    href={`${apiBase}/api/auth/logout`}
                     className="px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-colors block"
                     >
                     Sign out
