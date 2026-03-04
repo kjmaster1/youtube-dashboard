@@ -1,10 +1,15 @@
 import { google, Auth } from 'googleapis';
 
 export function getYoutubeClient(tokens: Auth.Credentials) {
+
+    const redirectUri = process.env.NODE_ENV === 'production'
+        ? 'https://server-production-f28f.up.railway.app/api/auth/callback'
+        : 'http://localhost:3001/api/auth/callback';
+    
     const oauth2Client = new google.auth.OAuth2({
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        redirectUri: process.env.GOOGLE_REDIRECT_URI
+        redirectUri: redirectUri
     });
     oauth2Client.setCredentials(tokens);
     return google.youtube({ version: 'v3', auth: oauth2Client });
