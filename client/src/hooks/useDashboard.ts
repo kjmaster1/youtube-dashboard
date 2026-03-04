@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { getDashboardData } from '../services/api';
+import {useEffect, useState} from 'react';
+import {getDashboardData} from '../services/api';
 import type {DashboardData} from '../types';
 
 interface UseDashboardResult {
@@ -31,5 +31,5 @@ export function useDashboard(): UseDashboardResult {
         fetchData();
     }, []);
 
-    return { data, loading, error, refetch: fetchData };
+    return {data, loading, error, refetch: fetchData};
 }

@@ -1,15 +1,14 @@
-import { Router, Request, Response } from 'express';
-import { Auth } from 'googleapis';
+import {Request, Response, Router} from 'express';
+import {Auth} from 'googleapis';
 import 'express-session';
+import {syncChannelData} from '../services/sync';
+import {prisma} from '../db';
 
 declare module 'express-session' {
     interface SessionData {
         tokens?: Auth.Credentials;
     }
 }
-
-import { syncChannelData } from '../services/sync';
-import { prisma } from '../db';
 
 const router = Router();
 
@@ -22,7 +21,7 @@ async function getTokens(req: Request): Promise<Auth.Credentials | null> {
         const apiKey = req.headers['x-api-key'];
         if (apiKey === process.env.DEV_API_KEY) {
             const stored = await prisma.authToken.findUnique({
-                where: { id: 'primary' }
+                where: {id: 'primary'}
             });
             if (stored) {
                 return {
@@ -41,16 +40,16 @@ router.post('/now', async (req: Request, res: Response) => {
     const tokens = await getTokens(req);
 
     if (!tokens) {
-        res.status(401).json({ error: 'Not authenticated' });
+        res.status(401).json({error: 'Not authenticated'});
         return;
     }
 
     try {
         const result = await syncChannelData(tokens);
-        res.json({ success: true, ...result });
+        res.json({success: true, ...result});
     } catch (error) {
         console.error('Sync error:', error);
-        res.status(500).json({ error: 'Sync failed' });
+        res.status(500).json({error: 'Sync failed'});
     }
 });
 

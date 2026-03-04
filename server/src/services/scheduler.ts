@@ -1,6 +1,6 @@
 import cron from 'node-cron';
-import { prisma } from '../db';
-import { fetchChannelData, fetchVideos } from './youtube';
+import {prisma} from '../db';
+import {fetchChannelData, fetchVideos} from './youtube';
 
 export function startScheduler() {
     // Runs every day at 9am
@@ -9,7 +9,7 @@ export function startScheduler() {
 
         try {
             const stored = await prisma.authToken.findUnique({
-                where: { id: 'primary' }
+                where: {id: 'primary'}
             });
 
             if (!stored) {
@@ -26,8 +26,8 @@ export function startScheduler() {
             const channelData = await fetchChannelData(tokens);
 
             const channel = await prisma.channel.upsert({
-                where: { youtubeChannelId: channelData.youtubeChannelId },
-                update: { title: channelData.title },
+                where: {youtubeChannelId: channelData.youtubeChannelId},
+                update: {title: channelData.title},
                 create: {
                     youtubeChannelId: channelData.youtubeChannelId,
                     title: channelData.title,
@@ -51,8 +51,8 @@ export function startScheduler() {
 
             for (const videoData of videos) {
                 const video = await prisma.video.upsert({
-                    where: { youtubeVideoId: videoData.youtubeVideoId },
-                    update: { title: videoData.title },
+                    where: {youtubeVideoId: videoData.youtubeVideoId},
+                    update: {title: videoData.title},
                     create: {
                         youtubeVideoId: videoData.youtubeVideoId,
                         channelId: channel.id,

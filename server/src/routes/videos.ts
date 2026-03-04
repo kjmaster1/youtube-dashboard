@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { prisma } from '../db';
+import {Request, Response, Router} from 'express';
+import {prisma} from '../db';
 
 const router = Router();
 
@@ -8,19 +8,19 @@ router.get('/', async (req: Request, res: Response) => {
         const channel = await prisma.channel.findFirst();
 
         if (!channel) {
-            res.status(404).json({ error: 'No channel data found. Please sync first.' });
+            res.status(404).json({error: 'No channel data found. Please sync first.'});
             return;
         }
 
         const videos = await prisma.video.findMany({
-            where: { channelId: channel.id },
+            where: {channelId: channel.id},
             include: {
                 snapshots: {
-                    orderBy: { recordedAt: 'desc' },
+                    orderBy: {recordedAt: 'desc'},
                     take: 1,
                 }
             },
-            orderBy: { publishedAt: 'desc' },
+            orderBy: {publishedAt: 'desc'},
         });
 
         res.json(videos.map(video => ({
@@ -32,7 +32,7 @@ router.get('/', async (req: Request, res: Response) => {
         })));
     } catch (error) {
         console.error('Videos error:', error);
-        res.status(500).json({ error: 'Failed to load videos' });
+        res.status(500).json({error: 'Failed to load videos'});
     }
 });
 
@@ -40,19 +40,19 @@ router.get('/export', async (req: Request, res: Response) => {
     try {
         const channel = await prisma.channel.findFirst();
         if (!channel) {
-            res.status(404).json({ error: 'No channel data found' });
+            res.status(404).json({error: 'No channel data found'});
             return;
         }
 
         const videos = await prisma.video.findMany({
-            where: { channelId: channel.id },
+            where: {channelId: channel.id},
             include: {
                 snapshots: {
-                    orderBy: { recordedAt: 'desc' },
+                    orderBy: {recordedAt: 'desc'},
                     take: 1,
                 }
             },
-            orderBy: { publishedAt: 'desc' },
+            orderBy: {publishedAt: 'desc'},
         });
 
         const rows = [
@@ -85,7 +85,7 @@ router.get('/export', async (req: Request, res: Response) => {
         res.send(csv);
     } catch (error) {
         console.error('Export error:', error);
-        res.status(500).json({ error: 'Export failed' });
+        res.status(500).json({error: 'Export failed'});
     }
 });
 

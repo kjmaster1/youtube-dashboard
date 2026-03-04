@@ -1,9 +1,9 @@
 import Layout from '../components/layout/Layout';
-import { useInsights } from '../hooks/useInsights';
-import { formatNumber } from '../utils/format';
+import {useInsights} from '../hooks/useInsights';
+import {formatNumber} from '../utils/format';
 
 export default function InsightsPage() {
-    const { data, loading, error } = useInsights();
+    const {data, loading, error} = useInsights();
 
     const channelTitle = localStorage.getItem('channelTitle') ?? undefined;
 
@@ -46,7 +46,8 @@ export default function InsightsPage() {
                                 <div className="flex-1">
                                     <div className="flex justify-between mb-1">
                                         <span className="text-sm text-white">{d.day}</span>
-                                        <span className="text-sm text-gray-400">{formatNumber(d.avgViews)} avg views</span>
+                                        <span
+                                            className="text-sm text-gray-400">{formatNumber(d.avgViews)} avg views</span>
                                     </div>
                                     <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                         <div
@@ -68,9 +69,9 @@ export default function InsightsPage() {
                     <p className="text-xs text-gray-500 mb-4">Performance comparison by format</p>
                     <div className="grid grid-cols-2 gap-4">
                         {[
-                            { label: 'Shorts', data: data.formatComparison.shorts, color: 'text-red-400' },
-                            { label: 'Long Form', data: data.formatComparison.longForm, color: 'text-blue-400' },
-                        ].map(({ label, data: fd, color }) => (
+                            {label: 'Shorts', data: data.formatComparison.shorts, color: 'text-red-400'},
+                            {label: 'Long Form', data: data.formatComparison.longForm, color: 'text-blue-400'},
+                        ].map(({label, data: fd, color}) => (
                             <div key={label} className="bg-gray-800 rounded-lg p-4">
                                 <p className={`text-sm font-semibold mb-3 ${color}`}>{label}</p>
                                 <div className="flex flex-col gap-2">

@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { prisma } from '../db';
+import {Request, Response, Router} from 'express';
+import {prisma} from '../db';
 
 const router = Router();
 
@@ -8,22 +8,22 @@ router.get('/showcase', async (req: Request, res: Response) => {
         const channel = await prisma.channel.findFirst({
             include: {
                 snapshots: {
-                    orderBy: { recordedAt: 'desc' },
+                    orderBy: {recordedAt: 'desc'},
                     take: 1,
                 }
             }
         });
 
         if (!channel) {
-            res.status(404).json({ error: 'No channel data found' });
+            res.status(404).json({error: 'No channel data found'});
             return;
         }
 
         const topVideos = await prisma.video.findMany({
-            where: { channelId: channel.id },
+            where: {channelId: channel.id},
             include: {
                 snapshots: {
-                    orderBy: { recordedAt: 'desc' },
+                    orderBy: {recordedAt: 'desc'},
                     take: 1,
                 }
             }
@@ -64,7 +64,7 @@ router.get('/showcase', async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error('Showcase error:', error);
-        res.status(500).json({ error: 'Failed to load showcase' });
+        res.status(500).json({error: 'Failed to load showcase'});
     }
 });
 

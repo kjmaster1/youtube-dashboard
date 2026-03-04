@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { getInsights } from '../services/api';
+import {useEffect, useState} from 'react';
+import {getInsights} from '../services/api';
 import type {Insights} from '../types';
 
 export function useInsights() {
@@ -19,8 +19,9 @@ export function useInsights() {
                 setLoading(false);
             }
         }
+
         fetch();
     }, []);
 
-    return { data, loading, error };
+    return {data, loading, error};
 }

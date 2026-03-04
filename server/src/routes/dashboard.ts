@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { prisma } from '../db';
+import {Request, Response, Router} from 'express';
+import {prisma} from '../db';
 
 const router = Router();
 
@@ -8,22 +8,22 @@ router.get('/', async (req: Request, res: Response) => {
         const channel = await prisma.channel.findFirst({
             include: {
                 snapshots: {
-                    orderBy: { recordedAt: 'desc' },
+                    orderBy: {recordedAt: 'desc'},
                     take: 30, // last 30 snapshots for trend charts
                 },
             }
         });
 
         if (!channel) {
-            res.status(404).json({ error: 'No channel data found. Please sync first.' });
+            res.status(404).json({error: 'No channel data found. Please sync first.'});
             return;
         }
 
         const topVideos = await prisma.video.findMany({
-            where: { channelId: channel.id },
+            where: {channelId: channel.id},
             include: {
                 snapshots: {
-                    orderBy: { recordedAt: 'desc' },
+                    orderBy: {recordedAt: 'desc'},
                     take: 1, // just the latest snapshot per video
                 }
             },
@@ -69,7 +69,7 @@ router.get('/', async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error('Dashboard error:', error);
-        res.status(500).json({ error: 'Failed to load dashboard data' });
+        res.status(500).json({error: 'Failed to load dashboard data'});
     }
 });
 

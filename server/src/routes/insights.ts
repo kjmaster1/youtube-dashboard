@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { prisma } from '../db';
+import {Request, Response, Router} from 'express';
+import {prisma} from '../db';
 
 const router = Router();
 
@@ -7,15 +7,15 @@ router.get('/', async (req: Request, res: Response) => {
     try {
         const channel = await prisma.channel.findFirst();
         if (!channel) {
-            res.status(404).json({ error: 'No data found' });
+            res.status(404).json({error: 'No data found'});
             return;
         }
 
         const videos = await prisma.video.findMany({
-            where: { channelId: channel.id },
+            where: {channelId: channel.id},
             include: {
                 snapshots: {
-                    orderBy: { recordedAt: 'desc' },
+                    orderBy: {recordedAt: 'desc'},
                     take: 1,
                 }
             }
@@ -27,21 +27,21 @@ router.get('/', async (req: Request, res: Response) => {
                 const snap = v.snapshots[0];
                 const views = parseInt(snap.viewCount.toString());
                 const engagement = (snap.likeCount + snap.commentCount) / views;
-                const day = new Date(v.publishedAt).toLocaleDateString('en-GB', { weekday: 'long' });
+                const day = new Date(v.publishedAt).toLocaleDateString('en-GB', {weekday: 'long'});
                 const durationSecs = parseDurationToSeconds(v.duration);
-                return { views, engagement, day, durationSecs, title: v.title };
+                return {views, engagement, day, durationSecs, title: v.title};
             });
 
         // Best day to post
         const dayStats: Record<string, { totalViews: number; count: number }> = {};
         for (const v of withStats) {
-            if (!dayStats[v.day]) dayStats[v.day] = { totalViews: 0, count: 0 };
+            if (!dayStats[v.day]) dayStats[v.day] = {totalViews: 0, count: 0};
             dayStats[v.day].totalViews += v.views;
             dayStats[v.day].count += 1;
         }
 
         const bestDay = Object.entries(dayStats)
-            .map(([day, stats]) => ({ day, avgViews: Math.round(stats.totalViews / stats.count), count: stats.count }))
+            .map(([day, stats]) => ({day, avgViews: Math.round(stats.totalViews / stats.count), count: stats.count}))
             .sort((a, b) => b.avgViews - a.avgViews);
 
         // Short vs long form performance
@@ -85,7 +85,7 @@ router.get('/', async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error('Insights error:', error);
-        res.status(500).json({ error: 'Failed to generate insights' });
+        res.status(500).json({error: 'Failed to generate insights'});
     }
 });
 

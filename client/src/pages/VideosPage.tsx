@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Layout from '../components/layout/Layout';
-import { useVideos } from '../hooks/useVideos';
-import { formatNumber, formatDuration, formatDate, engagementRate } from '../utils/format';
-import { exportCSV } from '../services/api';
+import {useVideos} from '../hooks/useVideos';
+import {engagementRate, formatDate, formatDuration, formatNumber} from '../utils/format';
+import {exportCSV} from '../services/api';
 
 type SortKey = 'publishedAt' | 'viewCount' | 'likeCount' | 'engagementRate';
 type SortDir = 'asc' | 'desc';
 
 export default function VideosPage() {
-    const { videos, loading, error } = useVideos();
+    const {videos, loading, error} = useVideos();
     const [search, setSearch] = useState('');
     const [sortKey, setSortKey] = useState<SortKey>('viewCount');
     const [sortDir, setSortDir] = useState<SortDir>('desc');
@@ -54,7 +54,7 @@ export default function VideosPage() {
             return sortDir === 'desc' ? valB - valA : valA - valB;
         });
 
-    function SortButton({ label, column }: { label: string; column: SortKey }) {
+    function SortButton({label, column}: { label: string; column: SortKey }) {
         const active = sortKey === column;
         return (
             <button
@@ -118,10 +118,10 @@ export default function VideosPage() {
             <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
                 <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 px-4 py-3 border-b border-gray-800">
                     <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">Video</span>
-                    <SortButton label="Published" column="publishedAt" />
-                    <SortButton label="Views" column="viewCount" />
-                    <SortButton label="Likes" column="likeCount" />
-                    <SortButton label="Engagement" column="engagementRate" />
+                    <SortButton label="Published" column="publishedAt"/>
+                    <SortButton label="Views" column="viewCount"/>
+                    <SortButton label="Likes" column="likeCount"/>
+                    <SortButton label="Engagement" column="engagementRate"/>
                 </div>
 
                 <div className="divide-y divide-gray-800">
@@ -140,32 +140,32 @@ export default function VideosPage() {
                                     />
                                     <div className="min-w-0">
 
-                                    <a    href={`https://youtube.com/watch?v=${video.youtubeVideoId}`}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="text-sm text-white hover:text-red-400 transition-colors truncate block"
+                                        <a href={`https://youtube.com/watch?v=${video.youtubeVideoId}`}
+                                           target="_blank"
+                                           rel="noreferrer"
+                                           className="text-sm text-white hover:text-red-400 transition-colors truncate block"
                                         >
-                                        {video.title}
-                                    </a>
-                                    <p className="text-xs text-gray-500 mt-0.5">
-                                        {formatDuration(video.duration)}
-                                    </p>
+                                            {video.title}
+                                        </a>
+                                        <p className="text-xs text-gray-500 mt-0.5">
+                                            {formatDuration(video.duration)}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        <span className="text-sm text-gray-300">
+                                <span className="text-sm text-gray-300">
                   {formatDate(video.publishedAt)}
                 </span>
-                        <span className="text-sm text-white font-medium">
+                                <span className="text-sm text-white font-medium">
                   {formatNumber(snap.viewCount)}
                 </span>
-                        <span className="text-sm text-gray-300">
+                                <span className="text-sm text-gray-300">
                   {formatNumber(snap.likeCount)}
                 </span>
-                        <span className="text-sm text-gray-300">
+                                <span className="text-sm text-gray-300">
                   {engagementRate(snap.viewCount, snap.likeCount, snap.commentCount)}
                 </span>
-                    </div>
-                    );
+                            </div>
+                        );
                     })}
                 </div>
             </div>

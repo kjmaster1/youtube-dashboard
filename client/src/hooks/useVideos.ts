@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { getVideos } from '../services/api';
+import {useEffect, useState} from 'react';
+import {getVideos} from '../services/api';
 import type {Video} from '../types';
 
 interface UseVideosResult {
@@ -25,8 +25,9 @@ export function useVideos(): UseVideosResult {
                 setLoading(false);
             }
         }
+
         fetchVideos();
     }, []);
 
-    return { videos, loading, error };
+    return {videos, loading, error};
 }

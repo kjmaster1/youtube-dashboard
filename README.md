@@ -1,8 +1,10 @@
 # YouTube Analytics Dashboard
 
-A full-stack YouTube channel analytics dashboard built with React, Node.js, and PostgreSQL. Connects to the YouTube Data API v3 via OAuth 2.0 to pull real channel data, track historical performance over time, and surface content insights.
+A full-stack YouTube channel analytics dashboard built with React, Node.js, and PostgreSQL. Connects to the YouTube Data
+API v3 via OAuth 2.0 to pull real channel data, track historical performance over time, and surface content insights.
 
-**[Live Demo](https://youtube-dashboard-client-beta.vercel.app)** · **[Public Showcase](https://youtube-dashboard-client-beta.vercel.app/showcase)**
+**[Live Demo](https://youtube-dashboard-client-beta.vercel.app)** · *
+*[Public Showcase](https://youtube-dashboard-client-beta.vercel.app/showcase)**
 
 ---
 
@@ -16,10 +18,14 @@ A full-stack YouTube channel analytics dashboard built with React, Node.js, and 
 
 - **Google OAuth 2.0** — secure sign-in with Google, no passwords stored
 - **Live YouTube sync** — pulls channel stats and up to 50 videos from the YouTube Data API v3
-- **Historical tracking** — every sync saves a snapshot, building a time-series record of subscriber and view count growth
-- **Dashboard** — channel summary with subscriber count, total views, average views per video, growth chart, and top videos by engagement
-- **Videos table** — all uploaded videos with search and multi-column sorting by views, likes, engagement rate, and publish date
-- **Content insights** — derived analytics including best days to post, Shorts vs long-form performance comparison, and top/bottom performing titles
+- **Historical tracking** — every sync saves a snapshot, building a time-series record of subscriber and view count
+  growth
+- **Dashboard** — channel summary with subscriber count, total views, average views per video, growth chart, and top
+  videos by engagement
+- **Videos table** — all uploaded videos with search and multi-column sorting by views, likes, engagement rate, and
+  publish date
+- **Content insights** — derived analytics including best days to post, Shorts vs long-form performance comparison, and
+  top/bottom performing titles
 - **CSV export** — download all video stats as a spreadsheet
 - **Scheduled auto-sync** — cron job runs daily at 9am to keep data fresh automatically
 - **Public showcase** — shareable, read-only page showing channel stats and top videos, no login required
@@ -28,14 +34,14 @@ A full-stack YouTube channel analytics dashboard built with React, Node.js, and 
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 18, TypeScript, Vite, Tailwind CSS, Recharts |
-| Backend | Node.js, Express, TypeScript |
-| Database | PostgreSQL (Supabase) |
-| ORM | Prisma 5 |
-| Auth | Google OAuth 2.0 via `googleapis` |
-| Deployment | Vercel (frontend), Railway (backend) |
+| Layer      | Technology                                         |
+|------------|----------------------------------------------------|
+| Frontend   | React 18, TypeScript, Vite, Tailwind CSS, Recharts |
+| Backend    | Node.js, Express, TypeScript                       |
+| Database   | PostgreSQL (Supabase)                              |
+| ORM        | Prisma 5                                           |
+| Auth       | Google OAuth 2.0 via `googleapis`                  |
+| Deployment | Vercel (frontend), Railway (backend)               |
 
 ---
 
@@ -82,7 +88,9 @@ A full-stack YouTube channel analytics dashboard built with React, Node.js, and 
 
 ### Key Design Decision — Snapshot Pattern
 
-The YouTube API only returns *current* statistics — it has no historical data endpoint. To enable trend charts, the app stores a `ChannelSnapshot` and `VideoSnapshot` every time a sync runs. Over time this builds a time-series database of performance data, enabling growth charts and trend analysis that the YouTube API itself cannot provide.
+The YouTube API only returns *current* statistics — it has no historical data endpoint. To enable trend charts, the app
+stores a `ChannelSnapshot` and `VideoSnapshot` every time a sync runs. Over time this builds a time-series database of
+performance data, enabling growth charts and trend analysis that the YouTube API itself cannot provide.
 
 ---
 
@@ -156,26 +164,26 @@ youtube-dashboard/
    Backend: `http://localhost:3001`
 
 5. **Authenticate and sync**
-   - Visit `http://localhost:5173` and sign in with Google
-   - Click **Sync Now** to pull your YouTube data
+    - Visit `http://localhost:5173` and sign in with Google
+    - Click **Sync Now** to pull your YouTube data
 
 ---
 
 ## API Endpoints
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/auth/login` | None | Initiates Google OAuth flow |
-| GET | `/api/auth/callback` | None | OAuth callback handler |
-| GET | `/api/auth/status` | None | Returns authentication status |
-| GET | `/api/auth/logout` | None | Destroys session and redirects |
-| POST | `/api/sync/now` | Required | Triggers a manual data sync |
-| GET | `/api/dashboard` | Required | Returns channel stats and top videos |
-| GET | `/api/videos` | Required | Returns all videos with latest snapshots |
-| GET | `/api/videos/export` | Required | Downloads video stats as CSV |
-| GET | `/api/insights` | Required | Returns derived content analytics |
-| GET | `/api/public/showcase` | None | Returns public channel summary |
-| GET | `/health` | None | Server and database health check |
+| Method | Endpoint               | Auth     | Description                              |
+|--------|------------------------|----------|------------------------------------------|
+| GET    | `/api/auth/login`      | None     | Initiates Google OAuth flow              |
+| GET    | `/api/auth/callback`   | None     | OAuth callback handler                   |
+| GET    | `/api/auth/status`     | None     | Returns authentication status            |
+| GET    | `/api/auth/logout`     | None     | Destroys session and redirects           |
+| POST   | `/api/sync/now`        | Required | Triggers a manual data sync              |
+| GET    | `/api/dashboard`       | Required | Returns channel stats and top videos     |
+| GET    | `/api/videos`          | Required | Returns all videos with latest snapshots |
+| GET    | `/api/videos/export`   | Required | Downloads video stats as CSV             |
+| GET    | `/api/insights`        | Required | Returns derived content analytics        |
+| GET    | `/api/public/showcase` | None     | Returns public channel summary           |
+| GET    | `/health`              | None     | Server and database health check         |
 
 ---
 
@@ -183,15 +191,18 @@ youtube-dashboard/
 
 The app is deployed as two separate services:
 
-- **Frontend** → [Vercel](https://vercel.com) — set root directory to `client`, add `VITE_API_URL` environment variable pointing to your Railway URL
-- **Backend** → [Railway](https://railway.app) — add all environment variables from `server/.env`, set build command to `npm run build --workspace=server`
+- **Frontend** → [Vercel](https://vercel.com) — set root directory to `client`, add `VITE_API_URL` environment variable
+  pointing to your Railway URL
+- **Backend** → [Railway](https://railway.app) — add all environment variables from `server/.env`, set build command to
+  `npm run build --workspace=server`
 - **Database** → [Supabase](https://supabase.com) — use the connection pooler URL (port 6543) for Railway compatibility
 
 ---
 
 ## Future Improvements
 
-- **Multi-user support** — currently single-user; could be extended with a `User` model scoping all data by authenticated user
+- **Multi-user support** — currently single-user; could be extended with a `User` model scoping all data by
+  authenticated user
 - **TikTok integration** — add a second data source alongside YouTube
 - **Email reports** — weekly digest of channel performance sent automatically
 - **Webhook triggers** — sync on new video upload rather than on a schedule
@@ -201,6 +212,7 @@ The app is deployed as two separate services:
 
 ## Author
 
-Built by **kjmaster1** as a portfolio project demonstrating full-stack TypeScript development, REST API design, OAuth 2.0 authentication, and data modelling with PostgreSQL.
+Built by **kjmaster1** as a portfolio project demonstrating full-stack TypeScript development, REST API design, OAuth
+2.0 authentication, and data modelling with PostgreSQL.
 
 [GitHub](https://github.com/kjmaster1) · [YouTube](https://youtube.com/@kjmodsminecraft)

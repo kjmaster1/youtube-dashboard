@@ -1,20 +1,12 @@
-import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-} from 'recharts';
+import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,} from 'recharts';
 import type {ChannelSnapshot} from '../types';
-import { formatNumber, formatDate } from '../utils/format';
+import {formatDate, formatNumber} from '../utils/format';
 
 interface SubscriberChartProps {
     snapshots: ChannelSnapshot[];
 }
 
-export default function SubscriberChart({ snapshots }: SubscriberChartProps) {
+export default function SubscriberChart({snapshots}: SubscriberChartProps) {
     const data = snapshots.map(s => ({
         date: formatDate(s.recordedAt),
         subscribers: s.subscriberCount,
@@ -33,15 +25,15 @@ export default function SubscriberChart({ snapshots }: SubscriberChartProps) {
             ) : (
                 <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={data}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937"/>
                         <XAxis
                             dataKey="date"
-                            tick={{ fill: '#6b7280', fontSize: 11 }}
+                            tick={{fill: '#6b7280', fontSize: 11}}
                             tickLine={false}
                         />
                         <YAxis
                             tickFormatter={formatNumber}
-                            tick={{ fill: '#6b7280', fontSize: 11 }}
+                            tick={{fill: '#6b7280', fontSize: 11}}
                             tickLine={false}
                             axisLine={false}
                         />
@@ -51,8 +43,8 @@ export default function SubscriberChart({ snapshots }: SubscriberChartProps) {
                                 border: '1px solid #374151',
                                 borderRadius: '8px',
                             }}
-                            labelStyle={{ color: '#f9fafb' }}
-                            itemStyle={{ color: '#ef4444' }}
+                            labelStyle={{color: '#f9fafb'}}
+                            itemStyle={{color: '#ef4444'}}
                             formatter={(value: number | undefined) => [formatNumber(value ?? 0), 'Subscribers']}
                         />
                         <Line

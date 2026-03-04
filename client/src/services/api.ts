@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type {DashboardData, Video, Insights} from '../types';
+import type {DashboardData, Insights, Video} from '../types';
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL

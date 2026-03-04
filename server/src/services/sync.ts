@@ -1,6 +1,6 @@
-import { prisma } from '../db';
-import { fetchChannelData, fetchVideos } from './youtube';
-import { Auth } from 'googleapis';
+import {prisma} from '../db';
+import {fetchChannelData, fetchVideos} from './youtube';
+import {Auth} from 'googleapis';
 
 export async function syncChannelData(tokens: Auth.Credentials) {
     // 1. Fetch channel data from YouTube
@@ -8,7 +8,7 @@ export async function syncChannelData(tokens: Auth.Credentials) {
 
     // 2. Upsert the channel — create if it doesn't exist, update if it does
     const channel = await prisma.channel.upsert({
-        where: { youtubeChannelId: channelData.youtubeChannelId },
+        where: {youtubeChannelId: channelData.youtubeChannelId},
         update: {
             title: channelData.title,
             description: channelData.description,
@@ -41,7 +41,7 @@ export async function syncChannelData(tokens: Auth.Credentials) {
     // 5. Upsert each video and save a snapshot
     for (const videoData of videos) {
         const video = await prisma.video.upsert({
-            where: { youtubeVideoId: videoData.youtubeVideoId },
+            where: {youtubeVideoId: videoData.youtubeVideoId},
             update: {
                 title: videoData.title,
                 description: videoData.description,
