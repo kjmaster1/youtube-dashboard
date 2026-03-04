@@ -55,6 +55,10 @@ app.get('/health', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.redirect(process.env.CLIENT_URL || 'http://localhost:5173');
+});
+
 startScheduler();
 
 app.listen(PORT, () => {
